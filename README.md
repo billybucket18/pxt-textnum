@@ -10,3 +10,4 @@ Each character becomes a 2‑digit number:
 
 ## Decoding
 Digits are read in pairs and converted back to characters.
+
