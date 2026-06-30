@@ -5,10 +5,11 @@ namespace textnum {
     export function encode(text: string): string {
         let out = "";
         for (let i = 0; i < text.length; i++) {
-            const code = text.charCodeAt(i) % 100; // always 2 digits (00–99)
+            const ascii = text.charCodeAt(i);
+            const mapped = ascii - 32; // printable ASCII → 0–94
 
-            // MakeCode-safe padStart:
-            let padded = code.toString();
+            // MakeCode-safe pad to 2 digits
+            let padded = mapped.toString();
             if (padded.length < 2) padded = "0" + padded;
 
             out += padded;
@@ -32,10 +33,10 @@ namespace textnum {
         // Decode in pairs
         for (let i = 0; i < cleaned.length; i += 2) {
             const pair = cleaned.substr(i, 2);
-            const n = parseInt(pair);
+            const mapped = parseInt(pair);
 
-            // Direct mapping back to charCode
-            out += String.fromCharCode(n);
+            const ascii = mapped + 32; // reverse mapping
+            out += String.fromCharCode(ascii);
         }
 
         return out;
