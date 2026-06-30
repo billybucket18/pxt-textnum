@@ -14,29 +14,19 @@ namespace textnum {
 
     //% block="encode text %text using mode %mode"
     export function encode(text: string, mode: Mode): string {
-        if (mode == Mode.ASCII2) {
-            return encodeASCII2(text);
-        } else if (mode == Mode.GLUED) {
-            return encodeGlued(text);
-        } else if (mode == Mode.ALPHA) {
-            return encodeAlpha(text);
-        } else if (mode == Mode.HEX) {
-            return encodeHex(text);
-        }
+        if (mode == Mode.ASCII2) return encodeASCII2(text);
+        if (mode == Mode.GLUED) return encodeGlued(text);
+        if (mode == Mode.ALPHA) return encodeAlpha(text);
+        if (mode == Mode.HEX) return encodeHex(text);
         return "";
     }
 
     //% block="decode numbers %numbers using mode %mode"
     export function decode(numbers: string, mode: Mode): string {
-        if (mode == Mode.ASCII2) {
-            return decodeASCII2(numbers);
-        } else if (mode == Mode.GLUED) {
-            return decodeGlued(numbers);
-        } else if (mode == Mode.ALPHA) {
-            return decodeAlpha(numbers);
-        } else if (mode == Mode.HEX) {
-            return decodeHex(numbers);
-        }
+        if (mode == Mode.ASCII2) return decodeASCII2(numbers);
+        if (mode == Mode.GLUED) return decodeGlued(numbers);
+        if (mode == Mode.ALPHA) return decodeAlpha(numbers);
+        if (mode == Mode.HEX) return decodeHex(numbers);
         return "";
     }
 
@@ -120,22 +110,20 @@ namespace textnum {
             if (n >= 1 && n <= 26) {
                 out += String.fromCharCode(n + 96);
             } else {
-                out += "?"; // placeholder for non-letters
+                out += "?";
             }
         }
         return out;
     }
 
     // -------------------------
-    // MODE: HEX (2-digit hex)
+    // MODE: HEX (safe, MakeCode-compatible)
     // -------------------------
     function encodeHex(text: string): string {
         let out = "";
         for (let i = 0; i < text.length; i++) {
             const ascii = text.charCodeAt(i);
-            let hex = ascii.toString(16);
-            if (hex.length < 2) hex = "0" + hex;
-            out += hex;
+            out += toHex(ascii);
         }
         return out;
     }
@@ -146,10 +134,25 @@ namespace textnum {
 
         for (let i = 0; i < cleaned.length; i += 2) {
             const pair = cleaned.substr(i, 2);
-            const ascii = parseInt(pair, 16);
+            const hi = hexToVal(pair.charAt(0));
+            const lo = hexToVal(pair.charAt(1));
+            const ascii = hi * 16 + lo;
             out += String.fromCharCode(ascii);
         }
         return out;
+    }
+
+    // Manual hex conversion (MakeCode-safe)
+    function toHex(n: number): string {
+        const hexChars = "0123456789abcdef";
+        let hi = Math.floor(n / 16);
+        let lo = n % 16;
+        return hexChars.charAt(hi) + hexChars.charAt(lo);
+    }
+
+    function hexToVal(c: string): number {
+        const hexChars = "0123456789abcdef";
+        return hexChars.indexOf(c.toLowerCase());
     }
 
     // -------------------------
