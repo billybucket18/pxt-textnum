@@ -15,11 +15,20 @@ namespace textnum {
     //% block="decode numbers %numbers to text"
     export function decode(numbers: string): string {
         let out = "";
-        const parts = numbers.split(",");
+
+        // Clean up whitespace so MakeCode text inputs don't break parsing
+        const cleaned = numbers.replace(/\s+/g, "");
+
+        // Split by comma
+        const parts = cleaned.split(",");
+
         for (let i = 0; i < parts.length; i++) {
             const n = parseInt(parts[i]);
-            if (!isNaN(n)) out += String.fromCharCode(n);
+            if (!isNaN(n)) {
+                out += String.fromCharCode(n);
+            }
         }
+
         return out;
     }
 }
