@@ -1,7 +1,7 @@
 {
   "name": "pxt-textnum",
-  "version": "0.0.1",
-  "description": "Text ↔ Number encoder/decoder for MakeCode",
+  "version": "0.0.3",
+  "description": "Text ↔ glued-number encoder/decoder for MakeCode",
   "license": "MIT",
   "dependencies": {
     "core": "*"

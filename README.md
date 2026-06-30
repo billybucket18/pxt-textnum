@@ -1,7 +1,12 @@
 # pxt-textnum
-Text ↔ Number encoder/decoder extension for MakeCode (Arcade + micro:bit).
+Text ↔ glued-number encoder/decoder extension for MakeCode.
 
-## Features
-- Encode text into comma-separated ASCII numbers
-- Decode ASCII numbers back into text
-- Fully reversible and safe for all characters
+## Encoding
+Each character becomes a 2‑digit number:
+- `a` → `21`
+- `n` → `73`
+- `c` → `63`
+- `d` → `67`
+
+## Decoding
+Digits are read in pairs and converted back to characters.
