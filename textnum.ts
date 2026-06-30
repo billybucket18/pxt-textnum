@@ -4,8 +4,6 @@ namespace textnum {
     export enum Mode {
         //% block="ASCII2"
         ASCII2,
-        //% block="Glued"
-        GLUED,
         //% block="Alphabet"
         ALPHA,
         //% block="Hex"
@@ -15,7 +13,6 @@ namespace textnum {
     //% block="encode text %text using mode %mode"
     export function encode(text: string, mode: Mode): string {
         if (mode == Mode.ASCII2) return encodeASCII2(text);
-        if (mode == Mode.GLUED) return encodeGlued(text);
         if (mode == Mode.ALPHA) return encodeAlpha(text);
         if (mode == Mode.HEX) return encodeHex(text);
         return "";
@@ -24,7 +21,6 @@ namespace textnum {
     //% block="decode numbers %numbers using mode %mode"
     export function decode(numbers: string, mode: Mode): string {
         if (mode == Mode.ASCII2) return decodeASCII2(numbers);
-        if (mode == Mode.GLUED) return decodeGlued(numbers);
         if (mode == Mode.ALPHA) return decodeAlpha(numbers);
         if (mode == Mode.HEX) return decodeHex(numbers);
         return "";
@@ -53,32 +49,6 @@ namespace textnum {
             const pair = cleaned.substr(i, 2);
             const mapped = parseInt(pair);
             const ascii = mapped + 32;
-            out += String.fromCharCode(ascii);
-        }
-        return out;
-    }
-
-    // -------------------------
-    // MODE: GLUED (your original)
-    // -------------------------
-    function encodeGlued(text: string): string {
-        let out = "";
-        for (let i = 0; i < text.length; i++) {
-            const code = text.charCodeAt(i) % 100;
-            let padded = code.toString();
-            if (padded.length < 2) padded = "0" + padded;
-            out += padded;
-        }
-        return out;
-    }
-
-    function decodeGlued(numbers: string): string {
-        let out = "";
-        let cleaned = clean(numbers);
-
-        for (let i = 0; i < cleaned.length; i += 2) {
-            const pair = cleaned.substr(i, 2);
-            const ascii = parseInt(pair);
             out += String.fromCharCode(ascii);
         }
         return out;
