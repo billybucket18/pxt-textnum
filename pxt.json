@@ -1,0 +1,13 @@
+{
+  "name": "pxt-textnum",
+  "version": "0.0.1",
+  "description": "Text ↔ Number encoder/decoder for MakeCode",
+  "license": "MIT",
+  "dependencies": {
+    "core": "*"
+  },
+  "files": [
+    "textnum.ts"
+  ],
+  "public": true
+}
