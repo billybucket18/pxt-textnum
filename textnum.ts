@@ -1,32 +1,33 @@
 //% weight=100 color=#cc5500 icon=""
 namespace textnum {
 
-    //% block="encode text %text to numbers"
+    //% block="encode text %text to glued numbers"
     export function encode(text: string): string {
         let out = "";
         for (let i = 0; i < text.length; i++) {
-            const code = text.charCodeAt(i);
-            out += code.toString();
-            if (i < text.length - 1) out += ",";
+            const code = text.charCodeAt(i) % 100; // always 2 digits
+            const padded = code.toString().padStart(2, "0");
+            out += padded;
         }
         return out;
     }
 
-    //% block="decode numbers %numbers to text"
+    //% block="decode glued numbers %numbers to text"
     export function decode(numbers: string): string {
         let out = "";
 
-        // Clean up whitespace so MakeCode text inputs don't break parsing
+        // remove whitespace
         const cleaned = numbers.replace(/\s+/g, "");
 
-        // Split by comma
-        const parts = cleaned.split(",");
+        // must be even length
+        for (let i = 0; i < cleaned.length; i += 2) {
+            const pair = cleaned.substr(i, 2);
+            const n = parseInt(pair);
 
-        for (let i = 0; i < parts.length; i++) {
-            const n = parseInt(parts[i]);
-            if (!isNaN(n)) {
-                out += String.fromCharCode(n);
-            }
+            // reverse the modulo trick:
+            // we assume characters are in ASCII range 32–126
+            const charCode = n; // direct mapping
+            out += String.fromCharCode(charCode);
         }
 
         return out;
